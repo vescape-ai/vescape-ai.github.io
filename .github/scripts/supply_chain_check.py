@@ -208,7 +208,9 @@ def check_pip_args(rel, n, args, out):
             skip_next = True
             continue
         a = a.strip("'\"")
-        if a.startswith(("-", "$")) or ">" in a or "<" in a or a in (".", ""):
+        if re.match(r"^\d*(>>?|<)", a):   # a redirect such as 2>/dev/null ends the arguments
+            break
+        if a.startswith(("-", "$")) or a in (".", ""):
             if a == ".":
                 out.append(Finding("pip-pin", rel, n, "`pip install .` resolves the project's ranges; use uv sync --frozen"))
             continue
