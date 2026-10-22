@@ -1,0 +1,7 @@
+# Supply-chain gate (vescape-ai/box factory/plan.md 3e): keep SHA pins current, only 72h after a release.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule: { interval: weekly }
+    cooldown: { default-days: 3 }

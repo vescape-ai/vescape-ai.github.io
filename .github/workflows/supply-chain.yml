@@ -1,0 +1,18 @@
+# Supply-chain gate (vescape-ai/box factory/plan.md 3e). The script is a byte-for-byte copy of
+# vescape-ai/box ci/supply_chain_check.py; exceptions go in .github/supply-chain-allow.txt with a reason.
+name: supply-chain
+on:
+  pull_request:
+  push: { branches: [main] }
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with: { persist-credentials: false }
+      - name: digests, exact pins, lockfiles, ignore-scripts, SHA-pinned actions, dependabot cooldown
+        run: python3 .github/scripts/supply_chain_check.py .
